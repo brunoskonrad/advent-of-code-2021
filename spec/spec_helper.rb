@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
+require "require_all"
+require "pry-byebug"
+
 require "advent_of_code_2021"
+require_all "lib/advent_of_code_2021"
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure

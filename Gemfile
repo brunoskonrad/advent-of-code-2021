@@ -10,3 +10,5 @@ gem "rubocop", "~> 1.21"
 gem "thor", "~> 1.1.0"
 
 gem "require_all", "~> 3.0.0"
+
+gem "pry-byebug"
