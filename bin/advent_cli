@@ -13,10 +13,10 @@ class OutOfDateError < StandardError; end
 class PartOutOfRangeError < StandardError; end
 
 class AdventCli < Thor
-  # rubocop:disable Metrics/MethodLength
+  # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
   desc "day DAY PART", "Execute code for given DAY. If none given, uses today's day as input."
   def day(day = DateTime.now.day, part = 1)
-    raise OutOfDateError if day.to_i > 25
+    raise OutOfDateError if day.to_i < 1 || day.to_i > 25
     raise PartOutOfRangeError if part.to_i < 1 || part.to_i > 2
 
     klass_name = "Day#{day}::Entry"
@@ -33,15 +33,15 @@ class AdventCli < Thor
 
     puts result
   rescue OutOfDateError
-    puts "We don't open a new challenge on the #{day}th. Sadch."
+    puts "We don't open a new puzzle on the #{day}th. Sadch."
   rescue PartOutOfRangeError
-    puts "There are only two parts for these advent challenges."
+    puts "There are only two parts for these advent puzzles."
   rescue NameError
     puts "404! Don't forget to create a \"#{klass_name}\" class with a class #part_one and #part_two methods."
   rescue Errno::ENOENT
     puts "404! Don't forget to create a \"input/day#{day}.txt\" file with the input required for today's task."
   end
-  # rubocop:enable Metrics/MethodLength
+  # rubocop:enable Metrics/MethodLength, Metrics/AbcSize
 end
 
 AdventCli.start(ARGV)

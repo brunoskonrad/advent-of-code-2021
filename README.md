@@ -1,35 +1,70 @@
 # AdventOfCode2021
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/advent_of_code_2021`. To experiment with that code, run `bin/console` for an interactive prompt.
+This repository is my approach on solving the [Advent of Code, 2021](https://adventofcode.com/2021).
 
-TODO: Delete this and the text above, and describe your gem
+Disclaimer: the following document is meant to give an overview of how it works internally and as a reference for future me.
 
-## Installation
+Installing dependencies:
 
-Add this line to your application's Gemfile:
-
-```ruby
-gem 'advent_of_code_2021'
+```
+bundle install
 ```
 
-And then execute:
+## Creating a new entry
 
-    $ bundle install
+Advent of Code work as follows: from the 1st of December until the 25th of December, a new puzzle is released. Each puzzle has two parts. Completing each part is worth a star.
 
-Or install it yourself as:
+In order for you to create a new entry, the following files are required:
 
-    $ gem install advent_of_code_2021
+- A new input text file should be created for each day. These files are located under `input` folder. This data can be found at the bottom of a puzzle page, on the Advent of Code website.
+- Either a `day[number].rb` file or a `day[number]` folder with the classes required to solve the puzzle.
+  - Either way, a `Day[number]::Entry` class should be created with two class methods: `#part_one` and `part_two`.
 
-## Usage
+And one of the entries for, let's say day 2, would look like:
 
-TODO: Write usage instructions here
 
-## Development
+```ruby
+module Day2
+  class Entry
+    class << self
+      def part_one(data)
+        raise NotImplementedError
+      end
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+      def part_two(data)
+        raise NotImplementedError
+      end
+    end
+  end
+end
+```
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and the created tag, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+Example, assuming day 1 and day 2:
 
-## Contributing
+```
+/input
+  day1.txt
+  day2.txt
+/lib
+  /advent_of_code_2021
+    day1.rb
+    /day2
+      entry.rb
+      component.rb
+```
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/advent_of_code_2021.
+## Running an entry
+
+Running a specific day:
+
+```
+bin/advent_cli day [day] [part]
+```
+
+Where `day` is the day's challenge you want to run and `part` is what part of the challenge to run, 1 or 2. e.g:
+
+```
+bin/advent_cli day 1 2
+```
+
+This command will run day 1 part 2. Worth to mention that, on WSL, the result will be copied to the clipboard. It is also outputed on the terminal.
