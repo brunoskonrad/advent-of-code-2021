@@ -4,28 +4,40 @@
 require "thor"
 require "require_all"
 require "date"
+require "clipboard"
 
 require_all "lib/advent_of_code_2021"
 
 class OutOfDateError < StandardError; end
 
+class PartOutOfRangeError < StandardError; end
+
 class AdventCli < Thor
   # rubocop:disable Metrics/MethodLength
-  desc "day DAY", "Execute code for given DAY. If none given, uses today's day as input."
-  def day(day = DateTime.now.day)
-    raise OutOfDateError if day.to_i > 24
+  desc "day DAY PART", "Execute code for given DAY. If none given, uses today's day as input."
+  def day(day = DateTime.now.day, part = 1)
+    raise OutOfDateError if day.to_i > 25
+    raise PartOutOfRangeError if part.to_i < 1 || part.to_i > 2
 
     klass_name = "Day#{day}::Entry"
     klass = Object.const_get(klass_name)
     entry = File.new("input/day#{day}.txt").read
 
-    result = klass.perform(entry)
+    result = if part.to_i == 1
+               klass.part_one(entry)
+             else
+               klass.part_two(entry)
+             end
+
+    Clipboard::Wsl.copy(result)
 
     puts result
   rescue OutOfDateError
     puts "We don't open a new challenge on the #{day}th. Sadch."
+  rescue PartOutOfRangeError
+    puts "There are only two parts for these advent challenges."
   rescue NameError
-    puts "404! Don't forget to create a \"#{klass_name}\" class with a class #perform method."
+    puts "404! Don't forget to create a \"#{klass_name}\" class with a class #part_one and #part_two methods."
   rescue Errno::ENOENT
     puts "404! Don't forget to create a \"input/day#{day}.txt\" file with the input required for today's task."
   end
