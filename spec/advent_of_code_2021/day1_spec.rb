@@ -1,35 +1,28 @@
-RSpec.describe Day1::Entry do
-  it "part one returns amount of increased depth" do
-    input = <<-INPUT
-199
-200
-208
-210
-200
-207
-240
-269
-260
-263
-    INPUT
+# frozen_string_literal: true
 
-    expect(described_class.part_one(input)).to eq(7)
+RSpec.describe Day1::Entry do
+  subject { described_class.new(input) }
+
+  let(:input) do
+    <<~INPUT
+      199
+      200
+      208
+      210
+      200
+      207
+      240
+      269
+      260
+      263
+    INPUT
   end
 
-  it "part two returns amount of increased depth by three-measurement sliding window" do
-    input = <<-INPUT
-199
-200
-208
-210
-200
-207
-240
-269
-260
-263
-    INPUT
+  describe "#part_one" do
+    it { expect(subject.part_one).to eq(7) }
+  end
 
-    expect(described_class.part_two(input)).to eq(5)
+  describe "#part_two" do
+    it { expect(subject.part_two).to eq(5) }
   end
 end

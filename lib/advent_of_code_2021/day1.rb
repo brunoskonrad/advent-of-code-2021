@@ -1,21 +1,23 @@
+# frozen_string_literal: true
+
+require_relative "puzzle_entry"
+
 module Day1
-  class Entry
-    class << self
-      def part_one(data)
-        CalculateDepthIncrease.perform(sonnar_data(data))
-      end
+  class Entry < PuzzleEntry
+    def part_one
+      CalculateDepthIncrease.perform(sonar_data)
+    end
 
-      def part_two(data)
-        new_data = ThreeMeasurementSlidingWindow.perform(sonnar_data(data))
+    def part_two
+      new_data = ThreeMeasurementSlidingWindow.perform(sonar_data)
 
-        CalculateDepthIncrease.perform(new_data)
-      end
+      CalculateDepthIncrease.perform(new_data)
+    end
 
-      private
+    private
 
-      def sonnar_data(data)
-        data.split("\n").map(&:strip).map(&:to_i)
-      end
+    def sonar_data
+      @sonar_data ||= data.split("\n").map(&:strip).map(&:to_i)
     end
   end
 
@@ -36,15 +38,15 @@ module Day1
   class ThreeMeasurementSlidingWindow
     def self.perform(data)
       data.each_with_index
-        .map do |depth, index|
-          if index >= data.length - 2
-            nil
-          else
-            [depth, data[index + 1], data[index + 2]]
-          end
+          .map do |depth, index|
+        if index >= data.length - 2
+          nil
+        else
+          [depth, data[index + 1], data[index + 2]]
         end
-        .reject(&:nil?)
-        .map(&:sum)
+      end
+          .reject(&:nil?)
+          .map(&:sum)
     end
   end
 end

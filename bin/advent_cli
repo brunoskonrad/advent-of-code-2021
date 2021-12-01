@@ -23,11 +23,7 @@ class AdventCli < Thor
     klass = Object.const_get(klass_name)
     entry = File.new("input/day#{day}.txt").read
 
-    result = if part.to_i == 1
-               klass.part_one(entry)
-             else
-               klass.part_two(entry)
-             end
+    result = klass.new(entry).perform(part.to_i)
 
     Clipboard::Wsl.copy(result)
 

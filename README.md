@@ -24,16 +24,16 @@ And one of the entries for, let's say day 2, would look like:
 
 
 ```ruby
-module Day2
-  class Entry
-    class << self
-      def part_one(data)
-        raise NotImplementedError
-      end
+require_relative "puzzle_entry"
 
-      def part_two(data)
-        raise NotImplementedError
-      end
+module Day
+  class Entry < PuzzleEntry
+    def part_one
+      data
+    end
+
+    def part_two
+      data
     end
   end
 end
