@@ -1,6 +1,8 @@
 require_relative "../puzzle_entry"
 require_relative "part_one"
 require_relative "submarine"
+require_relative "captain"
+require_relative "instructions"
 
 module Day2
   class Entry < PuzzleEntry
@@ -18,10 +20,11 @@ module Day2
 
     def part_two
       submarine = Submarine.new
+      captain = Captain.new(submarine)
 
-      planned_course.each { |instruction| submarine.perform(instruction) }
+      planned_course.each { |instruction| captain.shouts(instruction) }
 
-      submarine.total
+      submarine.total_depth
     end
 
     private
