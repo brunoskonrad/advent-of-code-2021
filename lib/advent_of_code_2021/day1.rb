@@ -9,9 +9,8 @@ module Day1
     end
 
     def part_two
-      new_data = ThreeMeasurementSlidingWindow.perform(sonar_data)
-
-      CalculateDepthIncrease.perform(new_data)
+      three_measurements_data = ThreeMeasurementSlidingWindow.perform(sonar_data)
+      CalculateDepthIncrease.perform(three_measurements_data)
     end
 
     private
@@ -39,12 +38,12 @@ module Day1
     def self.perform(data)
       data.each_with_index
           .map do |depth, index|
-        if index >= data.length - 2
-          nil
-        else
-          [depth, data[index + 1], data[index + 2]]
-        end
-      end
+            if index >= data.length - 2
+              nil
+            else
+              [depth, data[index + 1], data[index + 2]]
+            end
+          end
           .reject(&:nil?)
           .map(&:sum)
     end
